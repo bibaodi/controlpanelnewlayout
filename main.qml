@@ -118,10 +118,10 @@ Window {
 
             Column {
                 id: column1
-                x: parent.x
+                //x: parent.x
                 width: 60
                 height: roundButton2.height * 3
-                anchors.verticalCenter: parent.verticalCenter
+                //anchors.verticalCenter: parent.verticalCenter
                 spacing: (height - roundButton13.height * 2)
 
                 RoundButton {
@@ -139,7 +139,7 @@ Window {
 
             Column {
                 id: column2
-                x: column1.x + column1.width + 20
+                //x: column1.x + column1.width + 20
                 width: 60
                 height: roundButton2.height * 3
                 anchors.verticalCenter: parent.verticalCenter
@@ -159,7 +159,7 @@ Window {
 
             Column {
                 id: column3
-                width: parent.width - column1.width - column2.width - column4.width - column5.width
+                width: parent.width /2.3
                 height: parent.height
                 anchors.verticalCenter: parent.verticalCenter
 
@@ -168,22 +168,59 @@ Window {
                     width: parent.height
                     height: 20
                     Rectangle {
-                        color: "#ff0000"
-                        border.color: "#8d6b4b"
+                        width: parent.width
+                        height: parent.height
+                        color: "#f00f0f"
+                        border.color: "#ee7b0e"
                     }
                 }
             }
 
             Column {
                 id: column4
-                width: 200
-                height: 400
+                //x: column5.x - width
+                width: 70
+                height: roundButton2.height * 5
+                anchors.bottom:  parent.bottom
+                spacing: (height - roundButton15.height * 2)
+
+                RoundButton {
+                    id: roundButton17
+                    text: "probe"
+                    anchors.right: parent.right
+                }
+
+                RoundButton {
+                    id: roundButton18
+                    text: "arrow"
+                    anchors.left: parent.left
+                }
             }
 
             Column {
                 id: column5
-                width: 200
-                height: 400
+                width: 60
+                height: roundButton19.width*5
+                spacing: (height - roundButton19.height * 3)/2
+
+                RoundButton {
+                    id: roundButton19
+                    text: "zoom"
+                    anchors.left: parent.left
+                }
+
+                RoundButton {
+                    id: roundButton20
+                    text: "focus"
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
+
+
+                RoundButton {
+                    id: roundButton21
+                    text: "depth"
+                    anchors.right: parent.right
+                }
             }
         }
     }
