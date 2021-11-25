@@ -8,5 +8,10 @@
         <source>Hello Control Panel</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="main.qml" line="192"/>
+        <source>&lt;------------------------------------&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>

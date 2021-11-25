@@ -3,7 +3,7 @@ import QtQuick.Window 2.15
 import QtQuick.Controls 2.15
 
 Window {
-    width: 640
+    width: 640+40
     height: 480
     visible: true
     title: qsTr("Hello Control Panel")
@@ -17,7 +17,7 @@ Window {
 
         Row {
             id: row0
-            width: parent.width * 0.9
+            width: parent.width
             height: 60
             anchors.horizontalCenter: parent.horizontalCenter
             spacing: (width - roundButton.width * 2)
@@ -87,7 +87,7 @@ Window {
             RoundButton {
                 id: roundButton9
                 text: "E"
-                anchors.verticalCenter: parent.verticalCenter
+                y: 5
             }
 
             RoundButton {
@@ -99,7 +99,7 @@ Window {
             RoundButton {
                 id: roundButton11
                 text: "C"
-                anchors.verticalCenter: parent.verticalCenter
+                y:5
             }
 
             RoundButton {
@@ -114,26 +114,33 @@ Window {
             width: parent.width
             height: parent.height - row0.height - row1.height - row2.height
             anchors.horizontalCenter: parent.horizontalCenter
-            spacing: 20
+            spacing: 1
 
             Column {
                 id: column1
                 //x: parent.x
                 width: 60
                 height: roundButton2.height * 3
-                //anchors.verticalCenter: parent.verticalCenter
+                anchors.verticalCenter: parent.verticalCenter
                 spacing: (height - roundButton13.height * 2)
 
+//                Rectangle{
+//                    id: spacing_in_patient
+//                    height: 1
+//                    width: parent.width
+//                }
                 RoundButton {
                     id: roundButton13
                     text: "patient"
                     anchors.right: parent.right
+                    font.pixelSize: 9
                 }
 
                 RoundButton {
                     id: roundButton14
                     text: "End"
                     anchors.left: parent.left
+                    font.pixelSize: 9
                 }
             }
 
@@ -148,70 +155,109 @@ Window {
                     id: roundButton15
                     text: "probe"
                     anchors.right: parent.right
+                    font.pixelSize: 9
                 }
 
                 RoundButton {
                     id: roundButton16
                     text: "arrow"
                     anchors.left: parent.left
+                    font.pixelSize: 9
                 }
             }
 
             Column {
+                id: column6
+                width: 30
+                height: parent.height
+            }
+
+            Column {
                 id: column3
-                width: parent.width /2.3
+                width: row2.width - roundButton11.width*1.5
                 height: parent.height
                 anchors.verticalCenter: parent.verticalCenter
 
                 Row {
                     id: row_slider
-                    width: parent.height
-                    height: 20
+                    width: column3.width
+                    height: 30
                     Rectangle {
-                        width: parent.width
+                        width: column3.width
                         height: parent.height
-                        color: "#f00f0f"
+                        color:"#0000ff"
                         border.color: "#ee7b0e"
+                        Text {
+                            id: slider_text
+                            text: qsTr("<------------------------------------>")
+                            color: "#ffffff"
+                            font.bold: true
+                            antialiasing: true
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            anchors.verticalCenter: parent.verticalCenter
+                        }
                     }
                 }
             }
 
             Column {
+                id: column7
+                width: 20
+                height: parent.height
+            }
+
+            Column {
                 id: column4
-                //x: column5.x - width
                 width: 70
                 height: roundButton2.height * 5
-                anchors.bottom:  parent.bottom
-                spacing: (height - roundButton15.height * 2)
+                y: roundButton.height*2
+                spacing: (height - roundButton15.height * 3)/5
 
                 RoundButton {
                     id: roundButton17
-                    text: "probe"
-                    anchors.right: parent.right
+                    text: "P1"
+
                 }
 
                 RoundButton {
                     id: roundButton18
-                    text: "arrow"
+                    text: "iTuner"
+                    anchors.right: parent.right
+                    font.pixelSize: 9
+                }
+
+                RoundButton {
+                    id: roundButton22
+                    text: "Freeze"
                     anchors.left: parent.left
+                    font.pixelSize: 9
+                    width: roundButton18.width*1.5
+                    height: width
+                    background: Rectangle {
+                        color: roundButton22.down? "":"#ff8c00"
+                        radius: 100
+                    }
                 }
             }
+
 
             Column {
                 id: column5
                 width: 60
-                height: roundButton19.width*5
+                height: roundButton19.width*4
                 spacing: (height - roundButton19.height * 3)/2
 
                 RoundButton {
                     id: roundButton19
                     text: "zoom"
-                    anchors.left: parent.left
+                    x:-30
+                    font.pixelSize: 9
                 }
 
                 RoundButton {
                     id: roundButton20
                     text: "focus"
+                    font.pixelSize: 9
                     anchors.horizontalCenter: parent.horizontalCenter
                 }
 
@@ -220,8 +266,11 @@ Window {
                     id: roundButton21
                     text: "depth"
                     anchors.right: parent.right
+                    font.pixelSize: 9
                 }
             }
+
+
         }
     }
 }
