@@ -1,5 +1,12 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
+
+    </qresource>
+    <qresource prefix="/pics">
+        <file>controlPanel-update-211125g.png</file>
+        <file>controlPanel-left-211125.png</file>
+        <file>controlPanel-right-211125.png</file>
+        <file>controlPanel-update-211125white.png</file>
     </qresource>
 </RCC>

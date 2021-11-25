@@ -6,6 +6,7 @@ Window {
     width: 640+40
     height: 480
     visible: true
+    property alias image: image
     title: qsTr("Hello Control Panel")
 
     Column {
@@ -124,11 +125,11 @@ Window {
                 anchors.verticalCenter: parent.verticalCenter
                 spacing: (height - roundButton13.height * 2)
 
-//                Rectangle{
-//                    id: spacing_in_patient
-//                    height: 1
-//                    width: parent.width
-//                }
+                //                Rectangle{
+                //                    id: spacing_in_patient
+                //                    height: 1
+                //                    width: parent.width
+                //                }
                 RoundButton {
                     id: roundButton13
                     text: "patient"
@@ -234,8 +235,44 @@ Window {
 
                     Column {
                         id: column_ball
-                        width: parent.width*0.70
+                        width: parent.width - column_annotation.width - column_clip_img.width
                         height: parent.height
+                        spacing: 3
+                        Row {
+                            id: row_mouse
+                            width: parent.width
+                            height: parent.height
+
+                            Button {
+                                id: button_mouse_left
+                                text: qsTr("Left")
+                                background: transientParent
+                                anchors.top: parent.top
+                                width: column_ball.width/2
+                                height: parent.height-5
+                                Image {
+                                    width: parent.width
+                                    height: parent.height
+                                    source: parent.down? "":"pics/controlPanel-left-211125.png"
+                                }
+                            }
+
+                            Button {
+                                id: button_mouse_right
+                                text: qsTr("Right")
+                                background: transientParent
+                                anchors.top: parent.top
+                                width: column_ball.width/2-3
+                                height: parent.height-5
+
+                                Image {
+                                    width: parent.width
+                                    height: parent.height
+                                    source: parent.down? "":"pics/controlPanel-right-211125.png"
+                                }
+                            }
+                        }
+
                     }
 
                     Column {
@@ -334,6 +371,23 @@ Window {
             }
 
 
+        }
+    }
+
+    Button {
+        id: button_update
+        x: row3.x + row3.width/2.28
+        y: 230
+        width: 120
+        height: 45
+        text: qsTr("Update")
+        highlighted: true
+        background: transientParent
+        Image {
+            id: image
+            width: parent.width
+            height: parent.height
+            source: parent.down? "":"pics/controlPanel-update-211125g.png"
         }
     }
 }
