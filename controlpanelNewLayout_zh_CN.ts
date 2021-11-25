@@ -13,5 +13,25 @@
         <source>&lt;------------------------------------&gt;</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="main.qml" line="221"/>
+        <source>ABC</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="main.qml" line="230"/>
+        <source>Meas</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="main.qml" line="250"/>
+        <source>Clip</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="main.qml" line="259"/>
+        <source>Image</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>

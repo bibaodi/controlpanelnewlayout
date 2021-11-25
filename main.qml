@@ -180,10 +180,10 @@ Window {
 
                 Row {
                     id: row_slider
-                    width: column3.width
+                    width: parent.width
                     height: 30
                     Rectangle {
-                        width: column3.width
+                        width: parent.width
                         height: parent.height
                         color:"#0000ff"
                         border.color: "#ee7b0e"
@@ -195,6 +195,69 @@ Window {
                             antialiasing: true
                             anchors.horizontalCenter: parent.horizontalCenter
                             anchors.verticalCenter: parent.verticalCenter
+                        }
+                    }
+                }
+                Row{
+                    id:row_space_after_slider
+                    height:3
+                    width: parent.width
+                }
+                Row {
+                    id: row_mouse_ball
+                    width: parent.width
+                    height: parent.height - row_slider.height
+                    spacing: (width-column_annotation.width-column_ball.width-column_clip_img.width)/2
+
+                    Column {
+                        id: column_annotation
+                        width: parent.width*0.15
+                        height: parent.height
+                        spacing: 5
+                        Button {
+                            id: button_Annot
+                            height: (parent.height-10)/2
+                            width: parent.width
+                            text: qsTr("ABC")
+                            font.pixelSize: 9
+
+                        }
+
+                        Button {
+                            id: button_meas
+                            height: (parent.height-10)/2
+                            width: parent.width
+                            text: qsTr("Meas")
+                            font.pixelSize: 9
+                        }
+                    }
+
+                    Column {
+                        id: column_ball
+                        width: parent.width*0.70
+                        height: parent.height
+                    }
+
+                    Column {
+                        id: column_clip_img
+                        width: parent.width*0.15
+                        height: parent.height
+                        spacing: 5
+                        Button {
+                            id: button_clip
+                            height: (parent.height-10)/2
+                            width: parent.width
+                            text: qsTr("Clip")
+                            font.pixelSize: 9
+
+                        }
+
+                        Button {
+                            id: button_img
+                            height: (parent.height-10)/2
+                            width: parent.width
+                            text: qsTr("Image")
+                            font.pixelSize: 9
                         }
                     }
                 }
