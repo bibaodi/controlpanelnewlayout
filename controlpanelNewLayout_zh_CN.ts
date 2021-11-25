@@ -9,22 +9,22 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="main.qml" line="193"/>
+        <location filename="main.qml" line="186"/>
         <source>&lt;------------------------------------&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="main.qml" line="222"/>
+        <location filename="main.qml" line="215"/>
         <source>ABC</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="main.qml" line="231"/>
+        <location filename="main.qml" line="224"/>
         <source>Meas</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="main.qml" line="248"/>
+        <location filename="main.qml" line="241"/>
         <source>Left</source>
         <translation type="unfinished"></translation>
     </message>
@@ -34,22 +34,22 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="main.qml" line="262"/>
+        <location filename="main.qml" line="255"/>
         <source>Right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="main.qml" line="383"/>
+        <location filename="main.qml" line="378"/>
         <source>Update</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="main.qml" line="287"/>
+        <location filename="main.qml" line="280"/>
         <source>Clip</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="main.qml" line="296"/>
+        <location filename="main.qml" line="289"/>
         <source>Image</source>
         <translation type="unfinished"></translation>
     </message>

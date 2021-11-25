@@ -25,7 +25,8 @@ Window {
 
             RoundButton {
                 id: roundButton
-                text: "PWR"
+                text: "POWER"
+                font.pixelSize: 8
             }
 
             RoundButton {
@@ -119,17 +120,10 @@ Window {
 
             Column {
                 id: column1
-                //x: parent.x
                 width: 60
                 height: roundButton2.height * 3
                 anchors.verticalCenter: parent.verticalCenter
                 spacing: (height - roundButton13.height * 2)
-
-                //                Rectangle{
-                //                    id: spacing_in_patient
-                //                    height: 1
-                //                    width: parent.width
-                //                }
                 RoundButton {
                     id: roundButton13
                     text: "patient"
@@ -147,7 +141,6 @@ Window {
 
             Column {
                 id: column2
-                //x: column1.x + column1.width + 20
                 width: 60
                 height: roundButton2.height * 3
                 anchors.verticalCenter: parent.verticalCenter
@@ -374,6 +367,8 @@ Window {
         }
     }
 
+    //attention: because this button cannot be put in column or row,
+    // so only position it with absulute coordinate.
     Button {
         id: button_update
         x: row3.x + row3.width/2.28
