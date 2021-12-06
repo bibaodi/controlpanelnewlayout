@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.14)
 
-project(controlpanelNewLayout LANGUAGES CXX)
+project(controlpanelNewLayout LANGUAGES CXX C)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -11,18 +11,26 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# QtCreator supports the following variables for Android, which are identical to qmake Android variables.
-# Check https://doc.qt.io/qt/deployment-android.html for more information.
-# They need to be set before the find_package(...) calls below.
+find_package(X11 REQUIRED)
+if(X11_FOUND)
+    message(STATUS "X11 FOUND")
+else()
+    message(STATUS "X11 NOT FOUND")
+endif(X11_FOUND)
 
-#if(ANDROID)
-#    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
-#    if (ANDROID_ABI STREQUAL "armeabi-v7a")
-#        set(ANDROID_EXTRA_LIBS
-#            ${CMAKE_CURRENT_SOURCE_DIR}/path/to/libcrypto.so
-#            ${CMAKE_CURRENT_SOURCE_DIR}/path/to/libssl.so)
-#    endif()
-#endif()
+include(FindPkgConfig)
+pkg_check_modules(XCB xcb xcb-keysyms REQUIRED)
+#find_package(XCB REQUIRED)
+
+#find_package(ECM REQUIRED NO_MODULE)
+#set(CMAKE_MODULE_PATH ${ECM_FIND_MODULE_DIR})
+
+if(X11_XCB_FOUND)
+    message(STATUS "XCB FOUND")
+else()
+    message(STATUS "XCB NOT FOUND")
+endif(X11_XCB_FOUND)
+
 
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Core Quick LinguistTools REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Quick LinguistTools REQUIRED)
@@ -35,27 +43,18 @@ set(PROJECT_SOURCES
         ${TS_FILES}
 )
 
-if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_executable(controlpanelNewLayout
-        ${PROJECT_SOURCES}
-    )
 
-    qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
-else()
-    if(ANDROID)
-        add_library(controlpanelNewLayout SHARED
-            ${PROJECT_SOURCES}
-        )
-    else()
-        add_executable(controlpanelNewLayout
-          ${PROJECT_SOURCES}
-        )
-    endif()
+add_executable(controlpanelNewLayout  ${PROJECT_SOURCES})
 
-    qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
-endif()
+qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
+
+
+include_directories(./ ${X11_INCLUDE_DIR})
 
 target_compile_definitions(controlpanelNewLayout
   PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
+
+message(STATUS "Debug:"${X11_LIBRARIES}"\n\t;"${XCB_LDFLAGS})
+
 target_link_libraries(controlpanelNewLayout
-  PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick)
+  PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick ${X11_LIBRARIES} ${XCB_LDFLAGS})
