@@ -1,4 +1,4 @@
-#include "dbus_obj.h"
+#include "dbus_receive_key_signal.h"
 #include <QDebug>
 
 DbusControlPanel::DbusControlPanel(QObject *parent) : QObject(parent) {}

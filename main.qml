@@ -3,11 +3,13 @@ import QtQuick.Window 2.15
 import QtQuick.Controls 2.15
 
 Window {
+    id: id_window
+    objectName: "root_cp_window"
     width: 640+40
     height: 480
     visible: true
     property alias image: image
-    title: qsTr("Hello Control Panel")
+    title: qsTr("TestingControlPanel")
 
     Column {
         id: column

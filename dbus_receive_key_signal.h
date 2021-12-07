@@ -1,5 +1,5 @@
-#ifndef DBUS_OBJ_H
-#define DBUS_OBJ_H
+#ifndef DBUS_RECEIVE_KEY_SIGNAL_H
+#define DBUS_RECEIVE_KEY_SIGNAL_H
 
 #include <QObject>
 
@@ -17,4 +17,4 @@ class DbusControlPanel : public QObject {
     Q_SCRIPTABLE void key_ev_slot(const QString &keyname, const QString &actname);
 };
 
-#endif // DBUS_OBJ_H
+#endif // DBUS_RECEIVE_KEY_SIGNAL_H

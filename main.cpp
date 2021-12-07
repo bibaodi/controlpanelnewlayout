@@ -8,6 +8,7 @@
 #include <unistd.h>
 //--for xml read.end
 //--for x event-begin
+#include "controlpanelconnector.h"
 #include <fcntl.h>
 #include <signal.h>
 #include <stdbool.h>
@@ -351,7 +352,7 @@ int get_xml_config_file(void) {
 }
 */
 
-#include "dbus_obj.h"
+#include "dbus_receive_key_signal.h"
 #include <QDBusConnection>
 
 #define DBUS_CP_SERVICE_NAME "com.esi.cpanel"
@@ -397,6 +398,8 @@ int main(int argc, char *argv[]) {
         },
         Qt::QueuedConnection);
     engine.load(url);
+    QObject *qml_root = engine.rootObjects()[0];
+    ControlPanelUiConnector *cpuc = new ControlPanelUiConnector(nullptr, qml_root);
 
     app.exec();
 
