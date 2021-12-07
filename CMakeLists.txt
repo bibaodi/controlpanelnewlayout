@@ -31,18 +31,28 @@ else()
     message(STATUS "XCB NOT FOUND")
 endif(X11_XCB_FOUND)
 
+#for libxml2 --begin
+find_package(LibXml2 REQUIRED)
+include_directories( ${LIBXML2_INCLUDE_DIR})
+#for libxml2 --end
 
-find_package(QT NAMES Qt6 Qt5 COMPONENTS Core Quick LinguistTools REQUIRED)
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Quick LinguistTools REQUIRED)
+find_package(QT NAMES Qt6 Qt5 COMPONENTS Core Quick LinguistTools DBus REQUIRED)
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Quick LinguistTools DBus REQUIRED)
 
 set(TS_FILES controlpanelNewLayout_zh_CN.ts)
+file (GLOB H_Files "./*.h")
+file (GLOB C_Files "./*.c")
+file (GLOB CPP_Files "./*.cpp")
 
 set(PROJECT_SOURCES
         main.cpp
         qml.qrc
         ${TS_FILES}
+        ${C_Files}
+        ${CPP_Files}
+        ${H_Files}
 )
-
+message(STATUS ${PROJECT_SOURCES})
 
 add_executable(controlpanelNewLayout  ${PROJECT_SOURCES})
 
@@ -57,4 +67,5 @@ target_compile_definitions(controlpanelNewLayout
 message(STATUS "Debug:"${X11_LIBRARIES}"\n\t;"${XCB_LDFLAGS})
 
 target_link_libraries(controlpanelNewLayout
-  PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick ${X11_LIBRARIES} ${XCB_LDFLAGS})
+  PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick Qt5::DBus
+  ${X11_LIBRARIES} ${XCB_LDFLAGS} ${LIBXML2_LIBRARIES})

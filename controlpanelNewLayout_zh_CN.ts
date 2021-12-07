@@ -29,18 +29,8 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="main.qml" line="242"/>
-        <source></source>
-        <translation></translation>
-    </message>
-    <message>
         <location filename="main.qml" line="255"/>
         <source>Right</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="main.qml" line="378"/>
-        <source>Update</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -51,6 +41,11 @@
     <message>
         <location filename="main.qml" line="289"/>
         <source>Image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="main.qml" line="378"/>
+        <source>Update</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -1,6 +1,12 @@
 #include <QDebug>
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+//--for xml read.begin
+#include "logger.h"
+#include "loggerconf.h"
+#include <libxml/parser.h>
+#include <unistd.h>
+//--for xml read.end
 //--for x event-begin
 #include <fcntl.h>
 #include <signal.h>
@@ -231,7 +237,150 @@ void setup(void) {
     return;
 }
 
+char *xml_file = "/usr/local/etc/stimuli_mapping.xml";
+/*
+int get_xml_config_file(void) {
+    const char *s_stimuli_name = "stimuli_name";
+    const char *s_stimuli_code = "stimuli_code";
+    const char *s_combination = "combination";
+
+    if (0 != access(xml_file, F_OK | R_OK)) {
+        LOG_ERROR("input manager xml file not exist! %s\n", xml_file);
+        return -1;
+    }
+    LOG_INFO("start read and parse xml file:%s", xml_file);
+    xmlDoc *document;
+    xmlNode *root, *first_child, *item;
+    char stimuli_name[64] = {0};
+    char stimuli_code[64] = {0};
+    char combination[64] = {0};
+    unsigned int modifier;
+    xcb_keysym_t keysym;
+    document = xmlReadFile(xml_file, NULL, 0);
+    root = xmlDocGetRootElement(document);
+    first_child = root->children;
+    int c = 0;
+    for (item = first_child; item; item = item->next) {
+        memset(stimuli_name, 0, sizeof(stimuli_name));
+        memset(stimuli_code, 0, sizeof(stimuli_code));
+        keysym = 0;
+        modifier = 0;
+        xmlAttr *attr = item->properties;
+        if (attr && attr->name && attr->children) {
+            LOG_DEBUG("attr-%s=%s\n", attr->name, xmlNodeListGetString(item->doc, attr->children, 1));
+        }
+        xmlNode *item_node;
+        for (item_node = item->children; item_node; item_node = item_node->next) {
+            if (XML_TEXT_NODE == item_node->type) {
+                continue;
+            } else {
+                // 1. get combination + stimuli
+                // 2. convert combination to keysym+keycode
+                char *inner_text = xmlNodeGetContent(item_node);
+                LOG_DEBUG("type=%d#<%s>::%s<<<\n", item_node->type, item_node->name, inner_text);
+                if (!strcasecmp(s_stimuli_name, item_node->name)) {
+                    memset(stimuli_name, 0, sizeof(stimuli_name));
+                    strcpy(stimuli_name, inner_text);
+                } else if (!strcasecmp(s_stimuli_code, item_node->name)) {
+                    memset(stimuli_code, 0, sizeof(stimuli_code));
+                    strcpy(stimuli_code, inner_text);
+                } else if (!strcasecmp(s_combination, item_node->name)) {
+                    printf("combination: %s\n", inner_text);
+                    memset(combination, 0, sizeof(combination));
+                    strcpy(combination, inner_text);
+                    char *pos = combination;
+                    char *s_key = NULL;
+                    char *mod1 = combination;
+                    char *mod2 = combination;
+                    unsigned short plus_num = 0;
+
+                    while (*pos != '\0') {
+                        if ('+' == *pos++) {
+                            plus_num++;
+                        }
+                    }
+                    pos = combination;
+                    if (0 != plus_num) {
+                        s_key = strrchr(pos, '+');
+                        *s_key = '\0';
+                        s_key += 1;
+                        if (1 < plus_num) {
+                            mod2 = strchr(pos, '+');
+                            *mod2 = '\0';
+                            mod2 += 1;
+                        }
+                    } else {
+                        s_key = pos;
+                        mod1 = NULL;
+                        mod2 = NULL;
+                    }
+
+                    char *mods[2] = {mod1, mod2};
+
+                    for (int i = 0; i < plus_num; i++) {
+                        char *mod = mods[i];
+                        if (0 == strcasecmp(mod, "control") || 0 == strcasecmp(mod, "ctrl"))
+                            modifier |= ControlMask;
+                        else if (strcasecmp(mod, "shift") == 0)
+                            modifier |= ShiftMask;
+                        else if (strcasecmp(mod, "mod1") == 0 || strcasecmp(mod, "alt") == 0)
+                            modifier |= Mod1Mask;
+                        else if (strcasecmp(mod, "mod2") == 0)
+                            modifier |= Mod2Mask;
+                        else if (strcasecmp(mod, "mod3") == 0)
+                            modifier |= Mod3Mask;
+                        else if (strcasecmp(mod, "mod4") == 0 || strcasecmp(mod, "meta") == 0)
+                            modifier |= Mod4Mask;
+                        else if (strcasecmp(mod, "mod5") == 0)
+                            modifier |= Mod5Mask;
+                    }
+                    LOG_DEBUG("add key(xml_version): mod=%s;key=%s\n", mod1, s_key);
+                    keysym = XStringToKeysym(s_key);
+                }
+            }
+        }
+        if (0 != keysym && 0 != strlen(stimuli_name) && 0 != strlen(stimuli_code)) {
+            add_key_xml_version(keysym, modifier, stimuli_code, stimuli_name);
+        }
+        if (c++ > 500)
+            break;
+    }
+    xmlFreeDoc(document);
+    xmlCleanupParser();
+    return 0;
+}
+*/
+
+#include "dbus_obj.h"
+#include <QDBusConnection>
+
+#define DBUS_CP_SERVICE_NAME "com.esi.cpanel"
+#define DBUS_CP_OBJ_NAME "/obj0"
+int init_dbus() {
+    qDebug() << "init debus";
+    DbusControlPanel *dcp = new DbusControlPanel(); // no need to release.
+    QDBusConnection sess_bus = QDBusConnection::sessionBus();
+
+    if (!sess_bus.registerService(QString(DBUS_CP_SERVICE_NAME))) {
+        qFatal("Could not register service!");
+        return -1;
+    }
+
+    if (!sess_bus.registerObject(DBUS_CP_OBJ_NAME, dcp, QDBusConnection::ExportScriptableContents)) {
+        qFatal("Could not register Chat object!");
+        return -1;
+    }
+    // 21/12/07 support receive dbus signal from dbus-send
+    // dbus-send --session --type=signal --dest=com.esi.cpanel /obj0 com.esi.cpanel.key_ev_sig string:'a' string:'05'
+    sess_bus.connect(QString(), QString(), DBUS_CP_IFACE_NAME, "key_ev_sig", dcp, SLOT(key_ev_slot(QString, QString)));
+    return 0;
+}
+
 int main(int argc, char *argv[]) {
+
+    // setup();
+    init_dbus();
+
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
@@ -250,8 +399,6 @@ int main(int argc, char *argv[]) {
     engine.load(url);
 
     app.exec();
-
-    setup();
 
     return 0;
 }
