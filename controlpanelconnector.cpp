@@ -42,16 +42,61 @@ void ControlPanelUiConnector::key_ev_slot(const QString &key_stcode, const QStri
     }
     QString key_text = list2[1];
     QString key_action = list2[2];
-    QList<QQuickItem *> all_objs = m_rootItem->findChildren<QQuickItem *>(key_text);
-    for (int i = 0; i < all_objs.length(); i++) {
-        qDebug() << all_objs[i];
-        QQuickItem *cp_btn = all_objs[i];
-        if (QString("press") == key_action.toLower()) {
-            cp_btn->setProperty("highlighted", true);
-        } else if (QString("left") == key_action.toLower()) {
-            cp_btn->setProperty("testing_left_show", true);
-        } else if (QString("right") == key_action.toLower()) {
-            cp_btn->setProperty("testing_right_show", true);
+    int try_num = 5;
+    while (try_num > 0) {
+        QString key_objectName;
+        switch (try_num--) {
+        case 5: {
+            key_objectName = key_text.toLower();
+            break;
+        }
+        case 4: {
+            key_objectName = key_text.toUpper();
+            break;
+        }
+        case 3: {
+            if (key_text.length() < 2)
+                return;
+            key_objectName = key_text.at(0).toUpper() + key_text.right(key_text.length() - 1).toLower();
+            break;
+        }
+        case 2: {
+            if (key_text.length() < 3)
+                return;
+            key_objectName = key_text.at(0).toLower() + key_text.mid(1, 1).toUpper() +
+                             key_text.right(key_text.length() - 2).toLower();
+            break;
+        }
+        default:
+            return;
+        }
+        if (key_objectName.length() < 1) {
+            return;
+        }
+        QList<QQuickItem *> all_objs = m_rootItem->findChildren<QQuickItem *>(key_objectName);
+        for (int i = 0; i < all_objs.length(); i++) {
+            qDebug() << all_objs[i];
+            QQuickItem *cp_btn = all_objs[i];
+            QVariant property_value(true);
+            if (QString("press") == key_action.toLower()) {
+                if (property_value == cp_btn->property("highlighted")) {
+                    cp_btn->setProperty("highlighted", false);
+                } else {
+                    cp_btn->setProperty("highlighted", true);
+                }
+            } else if (QString("left") == key_action.toLower()) {
+                if (property_value == cp_btn->property("highlighted")) {
+                    cp_btn->setProperty("testing_left_show", false);
+                } else {
+                    cp_btn->setProperty("testing_left_show", true);
+                }
+            } else if (QString("right") == key_action.toLower()) {
+                if (property_value == cp_btn->property("highlighted")) {
+                    cp_btn->setProperty("testing_right_show", false);
+                } else {
+                    cp_btn->setProperty("testing_right_show", true);
+                }
+            }
         }
     }
 }

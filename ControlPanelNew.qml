@@ -380,10 +380,10 @@ Item {
                     font.pixelSize: 9
                     width: roundButton18.width*1.5
                     height: width
-                    background: Rectangle {
-                        color: roundButton22.down? "":"#ff8c00"
-                        radius: 100
-                    }
+//                    background: Rectangle {
+//                        color: roundButton22.down? "":"#ff8c00"
+//                        radius: 100
+//                    }
                 }
             }
 

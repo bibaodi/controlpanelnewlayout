@@ -358,7 +358,7 @@ int get_xml_config_file(void) {
 #define DBUS_CP_SERVICE_NAME "com.esi.cpanel"
 #define DBUS_CP_OBJ_NAME "/obj0"
 int init_dbus(ControlPanelUiConnector *cpuc = nullptr) {
-    qDebug() << "init debus";
+    qDebug() << "init dbus";
 
     DbusControlPanel *dcp = new DbusControlPanel(); // no need to release.
     QDBusConnection sess_bus = QDBusConnection::sessionBus();
