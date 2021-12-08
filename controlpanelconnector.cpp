@@ -75,7 +75,7 @@ void ControlPanelUiConnector::key_ev_slot(const QString &key_stcode, const QStri
         }
         QList<QQuickItem *> all_objs = m_rootItem->findChildren<QQuickItem *>(key_objectName);
         for (int i = 0; i < all_objs.length(); i++) {
-            qDebug() << all_objs[i];
+            qDebug() << "qml-obj-" << i << all_objs[i];
             QQuickItem *cp_btn = all_objs[i];
             QVariant property_value(true);
             if (QString("press") == key_action.toLower()) {
@@ -85,18 +85,20 @@ void ControlPanelUiConnector::key_ev_slot(const QString &key_stcode, const QStri
                     cp_btn->setProperty("highlighted", true);
                 }
             } else if (QString("left") == key_action.toLower()) {
-                if (property_value == cp_btn->property("highlighted")) {
+                qDebug() << "property: " << cp_btn->property("testing_left_show");
+                if (property_value == cp_btn->property("testing_left_show")) {
                     cp_btn->setProperty("testing_left_show", false);
                 } else {
                     cp_btn->setProperty("testing_left_show", true);
                 }
             } else if (QString("right") == key_action.toLower()) {
-                if (property_value == cp_btn->property("highlighted")) {
+                if (property_value == cp_btn->property("testing_right_show")) {
                     cp_btn->setProperty("testing_right_show", false);
                 } else {
                     cp_btn->setProperty("testing_right_show", true);
                 }
             }
+            return;
         }
     }
 }
