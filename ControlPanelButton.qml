@@ -6,7 +6,8 @@ import QtQuick.Templates 2.12 as T
 
 T.RoundButton {
     id: id_controlpanel_btn
-
+    property bool testing_left_show: false
+    property bool testing_right_show: false
     property string function_text: ""
     objectName: function_text?function_text:text
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
@@ -44,6 +45,22 @@ T.RoundButton {
                                                                     id_controlpanel_btn.palette.mid, id_controlpanel_btn.down ? 0.5 : 0.0)
         border.color: id_controlpanel_btn.palette.highlight
         border.width: id_controlpanel_btn.visualFocus ? 2 : 0
+            Rectangle {
+                id: id_left
+                width: parent.width /3
+                height: parent.height/3
+                color: "#00ff00"
+                visible: id_controlpanel_btn.testing_left_show
+            }
+            Rectangle {
+                id: id_right
+                anchors.right: parent.right
+                width: parent.width /3
+                height: parent.height/3
+                color: "#00f0b0"
+                visible: id_controlpanel_btn.testing_right_show
+            }
+
     }
 
     MouseArea {
