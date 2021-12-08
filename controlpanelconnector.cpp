@@ -1,6 +1,6 @@
 #include "controlpanelconnector.h"
 
-ControlPanelUiConnector::ControlPanelUiConnector(QObject *parent, QObject *root) : QObject(parent), qml_root(root) {
+ControlPanelUiConnector::ControlPanelUiConnector(QObject *parent, QObject *root) : QObject(parent), m_rootItem(root) {
     if (!root) {
         qDebug() << "Err: root item is null";
         return;
@@ -9,6 +9,7 @@ ControlPanelUiConnector::ControlPanelUiConnector(QObject *parent, QObject *root)
     QObject *item = root->findChild<QObject *>("btn_select");
     QObject *item2 = root->findChild<QObject *>("btn_translate");
     QObject *item3 = root->findChild<QObject *>("item_instance");
+
     if (!item3) {
         qDebug() << "item3 is not valid";
     } else {
@@ -31,4 +32,18 @@ void ControlPanelUiConnector::cppSlot3(QVariant vitem) {
     // QQuickItem item = (QQuickItem)vitem;
     qDebug() << "Called the C++ slot with item:" << vitem;
     // qDebug() << "Item dimensions:" << item->width() << item->height();
+}
+
+void ControlPanelUiConnector::key_ev_slot(const QString &key_stcode, const QString &key_infos) {
+    QStringList list2 = key_infos.split(QLatin1Char(':'), Qt::SkipEmptyParts);
+    qDebug() << "code:" << key_stcode << ", infos:" << key_infos << ",splits:" << list2;
+    if (list2.length() < 2 || list2[1].length() < 1) {
+        return;
+    }
+    QList<QQuickItem *> all_objs = m_rootItem->findChildren<QQuickItem *>(list2[1]);
+    for (int i = 0; i < all_objs.length(); i++) {
+        qDebug() << all_objs[i];
+        QQuickItem *cp_btn = all_objs[i];
+        cp_btn->setProperty("highlighted", true);
+    }
 }

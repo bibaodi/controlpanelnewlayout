@@ -357,8 +357,9 @@ int get_xml_config_file(void) {
 
 #define DBUS_CP_SERVICE_NAME "com.esi.cpanel"
 #define DBUS_CP_OBJ_NAME "/obj0"
-int init_dbus() {
+int init_dbus(ControlPanelUiConnector *cpuc = nullptr) {
     qDebug() << "init debus";
+
     DbusControlPanel *dcp = new DbusControlPanel(); // no need to release.
     QDBusConnection sess_bus = QDBusConnection::sessionBus();
 
@@ -374,14 +375,16 @@ int init_dbus() {
     // 21/12/07 support receive dbus signal from dbus-send
     // dbus-send --session --type=signal --dest=com.esi.cpanel /obj0 com.esi.cpanel.key_ev_sig string:'a' string:'05'
     sess_bus.connect(QString(), QString(), DBUS_CP_IFACE_NAME, "key_ev_sig", dcp, SLOT(key_ev_slot(QString, QString)));
+    if (nullptr != cpuc) {
+        sess_bus.connect(QString(), QString(), DBUS_CP_IFACE_NAME, "key_ev_sig", cpuc,
+                         SLOT(key_ev_slot(QString, QString)));
+    }
     return 0;
 }
 
 int main(int argc, char *argv[]) {
 
     // setup();
-    init_dbus();
-
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
@@ -398,8 +401,9 @@ int main(int argc, char *argv[]) {
         },
         Qt::QueuedConnection);
     engine.load(url);
-    QObject *qml_root = engine.rootObjects()[0];
-    ControlPanelUiConnector *cpuc = new ControlPanelUiConnector(nullptr, qml_root);
+    QObject *m_rootItemem = engine.rootObjects()[0];
+    ControlPanelUiConnector *cpuc = new ControlPanelUiConnector(nullptr, m_rootItemem);
+    init_dbus(cpuc);
 
     app.exec();
 

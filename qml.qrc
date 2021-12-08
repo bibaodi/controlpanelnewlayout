@@ -1,12 +1,13 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-
+        <file>ControlPanelButton.qml</file>
+        <file>ControlPanelNew.qml</file>
     </qresource>
     <qresource prefix="/pics">
-        <file>controlPanel-update-211125g.png</file>
-        <file>controlPanel-left-211125.png</file>
-        <file>controlPanel-right-211125.png</file>
-        <file>controlPanel-update-211125white.png</file>
+    <file alias="controlPanel-left.png">controlPanel-left-211125.png</file>
+    <file alias="controlPanel-right.png">controlPanel-right-211125.png</file>
+    <file alias="controlPanel-update.png">controlPanel-update-211125g.png</file>
+    <file alias="controlPanel-update-white.png">controlPanel-update-211125white.png</file>
     </qresource>
 </RCC>

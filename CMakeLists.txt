@@ -43,6 +43,7 @@ set(TS_FILES controlpanelNewLayout_zh_CN.ts)
 file (GLOB H_Files "./*.h")
 file (GLOB C_Files "./*.c")
 file (GLOB CPP_Files "./*.cpp")
+file (GLOB QML_Files "./*.qml")
 
 set(PROJECT_SOURCES
         main.cpp
@@ -51,6 +52,7 @@ set(PROJECT_SOURCES
         ${C_Files}
         ${CPP_Files}
         ${H_Files}
+        #${QML_Files}
 )
 message(STATUS ${PROJECT_SOURCES})
 
