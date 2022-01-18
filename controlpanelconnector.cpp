@@ -67,6 +67,10 @@ void ControlPanelUiConnector::key_ev_slot(const QString &key_stcode, const QStri
                              key_text.right(key_text.length() - 2).toLower();
             break;
         }
+        case 1: {
+            key_objectName = key_text;
+            break;
+        }
         default:
             return;
         }
